@@ -14,33 +14,38 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    // Method to retrieve all categories
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
-    // Method to retrieve a single category by ID
     public Optional<Category> getCategoryById(Long id) {
         return categoryRepository.findById(id);
     }
 
-    // Method to add a new category
     public Category addCategory(Category category) {
+        category.setDisabled(false);
         return categoryRepository.save(category);
     }
 
-    // Method to update an existing category
     public Category updateCategory(Long id, Category categoryDetails) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
-
         category.setCategoryName(categoryDetails.getCategoryName());
-        // Update other fields as needed
-
+        category.setDescription(categoryDetails.getDescription());
         return categoryRepository.save(category);
     }
 
-    // Method to delete a category by ID
+    public boolean disableCategory(Long id) {
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+        if (optionalCategory.isPresent()) {
+            Category category = optionalCategory.get();
+            category.setDisabled(true); // Assuming you have a setDisabled method
+            categoryRepository.save(category);
+            return true;
+        }
+        return false; // Category not found
+    }
+
     public void deleteCategory(Long id) {
         categoryRepository.deleteById(id);
     }

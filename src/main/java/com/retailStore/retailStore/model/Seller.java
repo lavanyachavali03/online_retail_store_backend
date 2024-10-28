@@ -4,6 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.Set;
+
 import jakarta.persistence.Column;
 
 @Entity
@@ -22,8 +26,8 @@ public class Seller {
     @Column(name = "status", nullable = false)
     private String status = "Active"; // default value
 
-//    @Column(name = "contact_number", nullable = false)
-//    private String contactNumber;
+    @OneToMany(mappedBy = "seller")
+    private Set<Products> products;
 
     // Getters and Setters
     public Long getId() {
@@ -42,13 +46,6 @@ public class Seller {
         this.sellerName = sellerName;
     }
 
-//    public String getContactNumber() {
-//        return contactNumber;
-//    }
-//
-//    public void setContactNumber(String contactNumber) {
-//        this.contactNumber = contactNumber;
-//    }
     public String getEmail() {
     	return email;
     }

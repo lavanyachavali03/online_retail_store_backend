@@ -8,3 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Products, Long> {
     // You can define custom query methods here if needed
 }
+
+
+
+

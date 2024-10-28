@@ -1,14 +1,16 @@
-	package com.retailStore.retailStore.controller;
+package com.retailStore.retailStore.controller;
 
 import com.retailStore.retailStore.model.Category;
 import com.retailStore.retailStore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
@@ -41,6 +43,18 @@ public class CategoryController {
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category categoryDetails) {
         Category updatedCategory = categoryService.updateCategory(id, categoryDetails);
         return ResponseEntity.ok(updatedCategory);
+    }
+    
+    // For Disabling
+//    @PutMapping("/disable/{id}")
+//    public ResponseEntity<Void> disableCategory(@PathVariable Long id) {
+//        categoryService.disableCategory(id);
+//        return ResponseEntity.ok().build();
+//    }
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<Void> disableCategory(@PathVariable Long id) {
+        boolean isDisabled = categoryService.disableCategory(id);
+        return isDisabled ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
     // Delete a category by ID
